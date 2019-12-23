@@ -1,29 +1,30 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace GameDev
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
+  
+
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        public Game1()
+        Hero myHero;
+         Block block1;
+        Level level1;
+        Sprite sprite1;
+        private List<Sprite> _sprites;
+            public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
+     
+
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -31,52 +32,87 @@ namespace GameDev
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
+
+
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            var myHeroAnimation = new Dictionary<string,Texture2D>
+            {
+                {"right",Content.Load<Texture2D>("walkingRight") },
+                {"left",Content.Load<Texture2D>("walkingLeft") },
+                {"idle",Content.Load<Texture2D>("walkingDown") }
+            };
+            _sprites = new List<Sprite>();
+            myHero = new Hero(myHeroAnimation,new Vector2(0,0),3,50);
+            myHero.Input = new ArrowKeys();
+            Texture2D TempTexture = Content.Load<Texture2D>("walkingRight");
+            //sprite1 = new Sprite(TempTexture,new Vector2(200,200));
+            block1 = new Block(Content.Load<Texture2D>("block"),new Vector2(100,100));
+            //level1 = new Level(Content.Load<Texture2D>("block"),5,5);
+            //level1.tileArray = new Byte[,] { { 1,1,0,1,1 },{ 1,1,0,1,1 },{ 1,1,0,1,1 },{ 1,1,0,1,1 },{ 1,1,0,1,1 }};
+            //level1.CreateWorld();
+            /*
+            foreach(var block in level1.ToArray())
+            {
+                //_sprites.Add(block);
+            }
+            */
+            _sprites.Add(block1);
+            _sprites.Add(myHero);
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
+
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+          
+
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+       
+
         protected override void Update(GameTime gameTime)
         {
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
 
+            myHero.Update(gameTime);
+            foreach(var sprite in _sprites)
+            {
+                if(sprite is Hero)
+                {
+                    
+                sprite.Update(gameTime,_sprites);
+                }
+            }
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
         protected override void Draw(GameTime gameTime)
         {
+            //Debug mode
+            
+            spriteBatch.Begin(SpriteSortMode.Immediate,BlendState.Opaque);
+            RasterizerState state = new RasterizerState();
+            state.FillMode = FillMode.WireFrame;
+            //End Debug section 
+            //spriteBatch.Begin();
+
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-
+            //sprite1.Draw(spriteBatch);
+            //block1.Draw(spriteBatch);
+            //level1.DrawWorld(spriteBatch);
+            //myHero.Draw(spriteBatch);
+            foreach(var sprite in _sprites)
+            {
+                sprite.Draw(spriteBatch);
+            }
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
