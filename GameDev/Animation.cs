@@ -30,7 +30,8 @@ namespace GameDev
         {
             get
             {
-                return  new Rectangle(  0,0,_frameWidth,_frameHeight);
+                return  new Rectangle( 
+                    (int)_position.X,(int)_position.Y,_frameWidth,_frameHeight);
                 ;
             }
         }

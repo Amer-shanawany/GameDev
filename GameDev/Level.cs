@@ -17,7 +17,7 @@ namespace GameDev
         public int LevelHeight { get; set; }
         public int LevelWidth { get; set; }
         
-        public Level(Texture2D texture,int LevelHeight,int LevelWidth)
+        public Level(Texture2D texture,int LevelWidth,int LevelHeight)
         {
             _texture = texture;
            // this.blockSprite = sprite;
@@ -35,7 +35,7 @@ namespace GameDev
                 {
                     if(tileArray[x,y] == 1)
                     {
-                        blocksArray[x,y] = new Block(_texture,new Vector2(y * _texture.Width,x * _texture.Height));
+                        blocksArray[x,y] = new Block(_texture,new Vector2(x * _texture.Width,y * _texture.Height));
                     }
 
                 }

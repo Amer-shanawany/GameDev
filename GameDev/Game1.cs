@@ -13,7 +13,7 @@ namespace GameDev
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Hero myHero;
-         Block block1;
+
         Level level1;
         Sprite sprite1;
         private List<Sprite> _sprites;
@@ -45,21 +45,29 @@ namespace GameDev
                 {"idle",Content.Load<Texture2D>("walkingDown") }
             };
             _sprites = new List<Sprite>();
-            myHero = new Hero(myHeroAnimation,new Vector2(0,0),3,50);
+            myHero = new Hero(myHeroAnimation,new Vector2(0300,100),3,50);
             myHero.Input = new ArrowKeys();
-            Texture2D TempTexture = Content.Load<Texture2D>("walkingRight");
+            //Texture2D TempTexture = Content.Load<Texture2D>("walkingRight");
             //sprite1 = new Sprite(TempTexture,new Vector2(200,200));
-            block1 = new Block(Content.Load<Texture2D>("block"),new Vector2(100,100));
-            //level1 = new Level(Content.Load<Texture2D>("block"),5,5);
-            //level1.tileArray = new Byte[,] { { 1,1,0,1,1 },{ 1,1,0,1,1 },{ 1,1,0,1,1 },{ 1,1,0,1,1 },{ 1,1,0,1,1 }};
-            //level1.CreateWorld();
-            /*
+            level1 = new Level(Content.Load<Texture2D>("block"),6,6);
+            level1.tileArray = new Byte[,] { 
+                { 1,1,1,1,1,1 },
+                { 1,1,1,1,1,1 },
+                { 1,1,1,1,0,1 },
+                { 1,1,1,1,0,1 },
+                { 1,1,1,1,0,1 },
+                { 1,1,1,1,0,1 }
+
+            };
+            level1.CreateWorld();
+            
             foreach(var block in level1.ToArray())
             {
-                //_sprites.Add(block);
+                _sprites.Add(block);
             }
-            */
-            _sprites.Add(block1);
+            
+
+
             _sprites.Add(myHero);
         }
 
