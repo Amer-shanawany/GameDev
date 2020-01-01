@@ -16,13 +16,13 @@ namespace GameDev
         //Rectangle _rectangle;
        // Vector2 _position;
         Vector2 _origin;
-        
-
+        protected Vector2 _gravity= new Vector2(0,2);
+        protected bool hasJumped = true;
         int _currentFrame;
         int _frameHeight;
         int _frameWidth;
         int _frameCount;
-
+        
         float timer;
         float _interval;
 
@@ -31,7 +31,7 @@ namespace GameDev
             get
             {
                 return  new Rectangle( 
-                    (int)_position.X,(int)_position.Y,_frameWidth,_frameHeight);
+                    (int)_position.X,(int)_position.Y,_frameWidth,_frameHeight-1);
                 ;
             }
         }
@@ -60,10 +60,47 @@ namespace GameDev
             _frameWidth = _texture.Width / _frameCount;
             _rectangle = new Rectangle(_currentFrame * _frameWidth,0,_frameWidth,_frameHeight);
             _origin = Vector2.Zero;// new Vector2(_rectangle.Width/2 ,_rectangle.Height /2);
-            _position += _velocity;
+            
+            _position += _velocity  ;
+            
             SetAnimation();
             
         }
+        public override void Update(GameTime gameTime,List<Sprite> sprites)
+        {
+            base.Update(gameTime,sprites);
+            _velocity += _gravity;
+            foreach(var sprite in sprites)
+            {
+                if(sprite != this)
+                {
+                    
+                
+                if(_velocity.X > 0 && IsTouchingLeft(sprite)||
+                    _velocity.X < 0 && IsTouchingRight(sprite))
+                {
+                     _velocity.X = 0;
+                }
+                if(_velocity.Y > 0 && IsTouchingTop(sprite) ||
+                    _velocity.Y < 0 && IsTouchingBottom(sprite))
+                {
+                    _velocity.Y = 0;
+                }
+                    if(IsTouchingTop(sprite))
+                    {
+                        _gravity.Y= 0;
+                        // hasJumped = false;
+                    }
+                    
+                     
+
+                    //_velocity.Y = _gravity.Y;
+
+
+                }
+            }
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
                   
         {
@@ -112,28 +149,6 @@ namespace GameDev
     }
             //Collision Section 
 
-        public override void Update(GameTime gameTime,List<Sprite> sprites)
-        {
-            base.Update(gameTime,sprites);
-            foreach(var sprite in sprites)
-            {
-                if(sprite != this)
-                {
-                    
-                
-                if(_velocity.X > 0 && IsTouchingLeft(sprite)||
-                    _velocity.X < 0 && IsTouchingRight(sprite))
-                {
-                     _velocity.X = 0;
-                }
-                if(_velocity.Y > 0 && IsTouchingTop(sprite) ||
-                    _velocity.Y < 0 && IsTouchingBottom(sprite))
-                {
-                    _velocity.Y = 0;
-                }
-                }
-            }
-        }
         public bool IsTouchingLeft(Sprite sprite)
         {
 

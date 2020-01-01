@@ -45,18 +45,22 @@ namespace GameDev
                 {"idle",Content.Load<Texture2D>("walkingDown") }
             };
             _sprites = new List<Sprite>();
-            myHero = new Hero(myHeroAnimation,new Vector2(0300,100),3,50);
+            myHero = new Hero(myHeroAnimation,new Vector2(250,100),3,50);
             myHero.Input = new ArrowKeys();
             //Texture2D TempTexture = Content.Load<Texture2D>("walkingRight");
             //sprite1 = new Sprite(TempTexture,new Vector2(200,200));
-            level1 = new Level(Content.Load<Texture2D>("block"),6,6);
+            level1 = new Level(Content.Load<Texture2D>("block"),16,10);
             level1.tileArray = new Byte[,] { 
-                { 1,1,1,1,1,1 },
-                { 1,1,1,1,1,1 },
-                { 1,1,1,1,0,1 },
-                { 1,1,1,1,0,1 },
-                { 1,1,1,1,0,1 },
-                { 1,1,1,1,0,1 }
+                { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1 },
+                { 1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1 },
+                { 1,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1 },
+                { 1,0,0,0,1,0,0,0,0,0,1,1,0,0,0,1 },
+                { 1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+                { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 
             };
             level1.CreateWorld();
@@ -91,8 +95,7 @@ namespace GameDev
             {
                 if(sprite is Hero)
                 {
-                    
-                sprite.Update(gameTime,_sprites);
+                    sprite.Update(gameTime,_sprites);
                 }
             }
             base.Update(gameTime);
@@ -103,12 +106,14 @@ namespace GameDev
         {
             //Debug mode
             
-            spriteBatch.Begin(SpriteSortMode.Immediate,BlendState.Opaque);
-            RasterizerState state = new RasterizerState();
-            state.FillMode = FillMode.WireFrame;
-            //End Debug section 
-            //spriteBatch.Begin();
+           //spriteBatch.Begin(SpriteSortMode.Immediate,BlendState.Opaque);
+           //RasterizerState state = new RasterizerState();
+           //state.FillMode = FillMode.WireFrame;
 
+            //End Debug section 
+
+
+            spriteBatch.Begin();
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
 

@@ -11,8 +11,8 @@ namespace GameDev
 {
     public class Hero : Animation
 
-    {   
-         
+    {
+
         
         public Input Input { get; set; } 
         public Hero(Dictionary<string,Texture2D> TextureList,Vector2 Position,int FrameCount,float Interval) 
@@ -35,22 +35,19 @@ namespace GameDev
             }
             else if(Input.Up)
             {
-                _velocity = new Vector2(0,-1);
+               // _velocity = new Vector2(0,-1);
             }
             else if(Input.Down)
             {
-                _velocity = new Vector2(0,1);
+                //_velocity = new Vector2(0,1);
             }
-            else if(Input.Jump)
-            {
-                //TODO : Add gravity and jumping Action
-                _velocity = new Vector2(0,-3);
-
-            }
+            
             else
             {
                 _velocity = Vector2.Zero;
             }
+     
+
         }
 
              

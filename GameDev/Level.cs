@@ -23,7 +23,7 @@ namespace GameDev
            // this.blockSprite = sprite;
             this.LevelWidth = LevelHeight;
             this.LevelHeight = LevelWidth;
-            blocksArray = new Block[LevelWidth,LevelHeight];
+            blocksArray = new Block[LevelHeight,LevelWidth];
         }
 
 
@@ -35,7 +35,7 @@ namespace GameDev
                 {
                     if(tileArray[x,y] == 1)
                     {
-                        blocksArray[x,y] = new Block(_texture,new Vector2(x * _texture.Width,y * _texture.Height));
+                        blocksArray[x,y] = new Block(_texture,new Vector2(y * _texture.Width,x * _texture.Height));
                     }
 
                 }
