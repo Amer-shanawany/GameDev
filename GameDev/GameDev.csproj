@@ -44,11 +44,13 @@
     <Compile Include="Animation.cs" />
     <Compile Include="ArrowKeys.cs" />
     <Compile Include="Block.cs" />
+    <Compile Include="Bullets.cs" />
     <Compile Include="Camera2D.cs" />
     <Compile Include="Coin.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="IShoot.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

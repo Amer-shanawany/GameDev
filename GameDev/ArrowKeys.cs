@@ -37,14 +37,21 @@ namespace GameDev
             if(currentKeyboardState.IsKeyUp(Keys.Down))
                 Down = false;
 
-            if(currentKeyboardState.IsKeyDown(Keys.Space))
-            {
+            
 
-            }
             if(currentKeyboardState.IsKeyDown(Keys.Space))
                 Jump = true;
             if(currentKeyboardState.IsKeyUp(Keys.Space))
                 Jump = false;
+            if(currentKeyboardState.IsKeyDown(Keys.X)&&previousKeyboardState.IsKeyUp(Keys.X))
+            {
+                Shoot = true;
+            }
+            if(currentKeyboardState.IsKeyUp(Keys.X))
+            {
+                Shoot = false;
+            }
+            
         }
     }
 }

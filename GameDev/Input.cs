@@ -13,6 +13,7 @@ namespace GameDev
         public bool Up{ get; set; }
         public bool Down { get; set; }
         public bool Jump { get; set; }
+        public bool Shoot { get; set; }
         public abstract void Update();
 
     }

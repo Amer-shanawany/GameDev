@@ -19,7 +19,7 @@ namespace GameDev
 
         public Vector2 _position;
         
-        private Vector2 _origin;
+        protected Vector2 _origin;
         protected Vector2 _velocity;
         protected Rectangle _rectangle;
 
@@ -37,8 +37,6 @@ namespace GameDev
         public virtual void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Draw(_texture,_position,Color.White);
 
-            //spriteBatch.Draw(_texture,_position,_source,Color.White,0f,_origin,new Vector2(1,1),SpriteEffects.None,0f);
-           //spriteBatch.Draw(_texture,_position,_destination,Color.White,0f,_origin,1.0f,SpriteEffects.None,0);
 
         }
         public virtual void Update(GameTime gameTime) {}

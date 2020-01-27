@@ -50,7 +50,8 @@ namespace GameDev
                 {"idle",Content.Load<Texture2D>("walkingDown") }
             };
             _sprites = new List<Sprite>();
-            myHero = new Hero(myHeroAnimation,new Vector2(250,100),3,50);
+            myHero = new Hero(myHeroAnimation,new Vector2(250,100),3,50);// {Bullet = new Bullet(Content.Load<Texture2D>("bullet"); };
+            myHero.Bullet = new Bullet(Content.Load<Texture2D>("bullet"),myHero._position);
             myHero.Input = new ArrowKeys();
             //Texture2D TempTexture = Content.Load<Texture2D>("walkingRight");
             //sprite1 = new Sprite(TempTexture,new Vector2(200,200));
@@ -80,6 +81,9 @@ namespace GameDev
             {
                 _sprites.Add(coin);
             }
+            
+            
+
 
 
             _font = Content.Load<SpriteFont>("Font");
@@ -103,18 +107,22 @@ namespace GameDev
 
              
             myHero.Update(gameTime);
-            foreach(var sprite in _sprites)
+            foreach(var sprite in _sprites.ToArray())
             {
                 if(sprite is Hero)
                 {
                     sprite.Update(gameTime,_sprites);
                     camera.Follow(sprite);
                 }
-                if(sprite is Coin)
+                if(sprite is Coin )
                 {
                      
                     sprite.Update(gameTime);
                 }
+               if(sprite is Bullet)
+              {
+                  sprite.Update(gameTime,_sprites);
+              }
             }
             for(int i = 0; i < _sprites.Count; i++)
             {
@@ -147,6 +155,7 @@ namespace GameDev
             //block1.Draw(spriteBatch);
             //level1.DrawWorld(spriteBatch);
             //myHero.Draw(spriteBatch);
+          
             foreach(var sprite in _sprites)
             {
                  

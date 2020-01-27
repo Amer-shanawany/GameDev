@@ -13,12 +13,17 @@ namespace GameDev
 
     {
         bool spacebarDown;
-        public int Score = 0; 
+        public int Score = 0;
+        bool hasShoot = false;
+        public Input Input { get; set; }
+        public Texture2D BulletTexture { get ; set; }
+        public Bullet Bullet;
+        public List<Bullet> Bullets { get; set; }
 
-        public Input Input { get; set; } 
         public Hero(Dictionary<string,Texture2D> TextureList,Vector2 Position,int FrameCount,float Interval) 
             : base(TextureList,Position,FrameCount,Interval)
         {
+            Bullets = new List<Bullet>();
             
         }
         public override void Update(GameTime gameTime)
@@ -54,7 +59,7 @@ namespace GameDev
                 //_velocity.Y -=  50f;            // velocity of jump 
                 _position.Y -= 35;
                 //_velocity.Y = -50;
-                _velocity.Y -= 85;
+                _velocity.Y = -85;
                 hasJumped = true;
                 spacebarDown = true;
             }
@@ -77,8 +82,8 @@ namespace GameDev
                 spacebarDown = false;
             }
 
-           
-
+            
+            RemoveBullets();
         }
 
         public override void Update(GameTime gameTime,List<Sprite> sprites)
@@ -104,8 +109,73 @@ namespace GameDev
                     }
                 }
             }
-            
+            if(Input.Shoot&&!hasShoot)
+            {
+                Shoot(sprites);
+                hasShoot = true;
+            }
+            if(!Input.Shoot)
+            {
+                hasShoot = false;
+            }
         }
+
+        public void Shoot(List<Sprite> sprites)
+        {
+           
+            var bullet = Bullet.Clone() as Bullet;
+            bullet._position = new Vector2 (_position.X + _rectangle.Width/2,_position.Y + this._rectangle.Height / 2);
+            bullet.velocity.X = _velocity.X;
+            //bullet._position.X += _velocity.X;
+            if(_velocity.X < 0)
+            {
+                bullet.Directoin = Directoin.Left;
+            }
+            else
+           
+            {
+                bullet.Directoin = Directoin.Right;
+            }
+                bullet.Lifespan = 2f;
+            sprites.Add(bullet);
+          //Bullet bullet = new Bullet(BulletTexture,this._position);
+          //bullet._position = this._position;
+          //bullet._position += _velocity;
+          //bullet.velocity.X  =  this._velocity.X + 5f ;
+          //bullet.IsRemoved = false;
+          //Bullets.Add(bullet);
+
+        }
+
+        public void RemoveBullets()
+        {
+            foreach(var bullet in Bullets)
+            {
+                if(Vector2.Distance(bullet._position, this._position)>500)
+
+                {
+                    bullet.IsRemoved = true;
+                }
+            }
+            for(int i = 0; i < Bullets.Count; i++)
+            {
+                if(Bullets[i].IsRemoved)
+                {
+                    Bullets.RemoveAt(i);
+                    i--;
+                }
+            }
+         }
+
+       //public List<Sprite> ToArrayBullets(List<Bullet>)
+       //{
+       //    List<Bullet> temp = Bullets.ToList();
+       //    foreach(var bullet in temp)
+       //    {
+       //
+       //    }
+       //    return temp;
+       //}
     }
     
 }

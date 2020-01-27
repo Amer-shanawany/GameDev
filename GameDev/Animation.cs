@@ -12,6 +12,7 @@ namespace GameDev
     public  class Animation:Sprite
     {
         Dictionary<string,Texture2D> _textureList;
+       
         //Texture2D _texture;
         //Rectangle _rectangle;
        // Vector2 _position;
@@ -45,10 +46,10 @@ namespace GameDev
             _frameCount = FrameCount;
             _interval = Interval;
             //_texture = _textureList["idle"];
+          
 
 
         }
-        
         public override void Update(GameTime gameTime)
 
         {
