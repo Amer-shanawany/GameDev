@@ -77,7 +77,7 @@ namespace GameDev
             foreach(var sprite in sprites)
 
             {
-                if(IsTouchingTop(sprite))
+                if(IsTouchingTop(sprite)&& !(sprite is Bullet))
                 {
                     // _gravity.Y= 0;
                     hasJumped = false;
@@ -93,7 +93,7 @@ namespace GameDev
 
                     if(sprite is Block)
                     {
-
+                        
                     
                          if(_velocity.X > 0 && IsTouchingLeft(sprite)||
                         _velocity.X < 0 && IsTouchingRight(sprite))
@@ -124,7 +124,7 @@ namespace GameDev
             {
                 _texture = _textureList["idle"];
             }
-            spriteBatch.Draw(_texture,_position,_rectangle,Color.White,0f,_origin,1.0f,SpriteEffects.None,0);
+            spriteBatch.Draw(_texture,_position,_rectangle,Color.White,0f,_origin,1.0f,SpriteEffects.None,0f);
          }
         public void Animate(GameTime gameTime)
         {

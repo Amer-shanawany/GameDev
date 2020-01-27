@@ -28,11 +28,11 @@ namespace GameDev
             switch(Directoin)
             {
                 case Directoin.Right:
-                    spriteBatch.Draw(_texture,_position,null,Color.Blue,0f,_origin,new Vector2(0.2f,0.2f),SpriteEffects.None,0f);
+                    spriteBatch.Draw(_texture,_position,null,Color.Blue,0f,_origin,new Vector2(0.2f,0.2f),SpriteEffects.None,1f);
 
                     break;
                 case Directoin.Left:
-                    spriteBatch.Draw(_texture,_position,null,Color.Blue,0f,_origin,new Vector2(0.2f,0.2f),SpriteEffects.FlipHorizontally,0f);
+                    spriteBatch.Draw(_texture,_position,null,Color.Blue,0f,_origin,new Vector2(0.2f,0.2f),SpriteEffects.FlipHorizontally,1f);
 
                     break;
                 default:
