@@ -16,10 +16,14 @@ namespace GameDev
         //
         private Rectangle _destination;
         private Rectangle _source;
+
         public Vector2 _position;
+        
         private Vector2 _origin;
         protected Vector2 _velocity;
         protected Rectangle _rectangle;
+
+        public bool IsRemoved = false;
 
         public Sprite(Texture2D texture,Vector2  position) {
             _texture = texture;

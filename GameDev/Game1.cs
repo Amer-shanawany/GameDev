@@ -12,7 +12,11 @@ namespace GameDev
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public static int ScreenHeight;
+        public static int ScreenWidth;
+        Camera2D camera;
         Hero myHero;
+        SpriteFont _font;
 
         Level level1;
         Sprite sprite1;
@@ -28,7 +32,8 @@ namespace GameDev
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            ScreenHeight = graphics.PreferredBackBufferHeight;
+            ScreenWidth = graphics.PreferredBackBufferWidth;
             base.Initialize();
         }
 
@@ -37,7 +42,7 @@ namespace GameDev
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            camera = new Camera2D();
             var myHeroAnimation = new Dictionary<string,Texture2D>
             {
                 {"right",Content.Load<Texture2D>("walkingRight") },
@@ -49,17 +54,19 @@ namespace GameDev
             myHero.Input = new ArrowKeys();
             //Texture2D TempTexture = Content.Load<Texture2D>("walkingRight");
             //sprite1 = new Sprite(TempTexture,new Vector2(200,200));
-            level1 = new Level(Content.Load<Texture2D>("block"),16,10);
+            level1 = new Level(Content.Load<Texture2D>("block"), new Dictionary<string,Texture2D> { { "idle",Content.Load<Texture2D>("coin_1") } },16,10);
+           // level1 = new Level(Content.Load<Texture2D>("block"),myHeroAnimation,16,10);
+
             level1.tileArray = new Byte[,] { 
                 { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1 },
-                { 1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1 },
-                { 1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1 },
-                { 1,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1 },
-                { 1,0,0,0,1,0,0,0,0,0,1,1,0,0,0,1 },
-                { 1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1 },
-                { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,2,0,0,0,0,1,0,2,0,0,1 },
+                { 1,0,2,0,0,0,0,0,0,0,0,1,0,0,0,1 },
+                { 1,0,0,0,0,0,1,1,1,0,0,2,0,1,1,1 },
+                { 1,0,0,2,1,0,0,0,0,0,1,1,1,0,0,1 },
+                { 1,0,0,1,1,2,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1 },
                 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 
             };
@@ -69,10 +76,15 @@ namespace GameDev
             {
                 _sprites.Add(block);
             }
-            
+            foreach(var coin in level1.ToArrayCoins())
+            {
+                _sprites.Add(coin);
+            }
 
 
+            _font = Content.Load<SpriteFont>("Font");
             _sprites.Add(myHero);
+            
         }
 
 
@@ -89,13 +101,27 @@ namespace GameDev
             if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
+             
             myHero.Update(gameTime);
             foreach(var sprite in _sprites)
             {
                 if(sprite is Hero)
                 {
                     sprite.Update(gameTime,_sprites);
+                    camera.Follow(sprite);
+                }
+                if(sprite is Coin)
+                {
+                     
+                    sprite.Update(gameTime);
+                }
+            }
+            for(int i = 0; i < _sprites.Count; i++)
+            {
+                if(_sprites[i].IsRemoved)
+                {
+                    _sprites.RemoveAt(i);
+                    i--;
                 }
             }
             base.Update(gameTime);
@@ -113,9 +139,9 @@ namespace GameDev
             //End Debug section 
 
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: camera.Transform);
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.TransparentBlack);
 
             //sprite1.Draw(spriteBatch);
             //block1.Draw(spriteBatch);
@@ -123,8 +149,13 @@ namespace GameDev
             //myHero.Draw(spriteBatch);
             foreach(var sprite in _sprites)
             {
-                sprite.Draw(spriteBatch);
+                 
+                 
+                    sprite.Draw(spriteBatch);
+                 
+                 
             }
+            spriteBatch.DrawString(_font,string.Format("Score "+ myHero.Score),new Vector2 ( 25 + myHero._position.X - (ScreenWidth/2) ,25 + myHero._position.Y - (ScreenHeight/2)),Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }

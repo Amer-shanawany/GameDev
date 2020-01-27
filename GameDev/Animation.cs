@@ -16,8 +16,9 @@ namespace GameDev
         //Rectangle _rectangle;
        // Vector2 _position;
         Vector2 _origin;
-        protected Vector2 _gravity= new Vector2(0,2);
+        protected Vector2 _gravity = new Vector2(0,1.5f);
         protected bool hasJumped = true;
+        protected bool isJumping = false;
         int _currentFrame;
         int _frameHeight;
         int _frameWidth;
@@ -69,30 +70,44 @@ namespace GameDev
         public override void Update(GameTime gameTime,List<Sprite> sprites)
         {
             base.Update(gameTime,sprites);
+
+            float i = 2f;
             _velocity += _gravity;
             foreach(var sprite in sprites)
+
             {
+                if(IsTouchingTop(sprite))
+                {
+                    // _gravity.Y= 0;
+                    hasJumped = false;
+                    isJumping = false;
+                    _gravity.Y = 0;
+                }else
+                {
+                    _gravity.Y = 1.5f;
+                 }
+                   
                 if(sprite != this)
                 {
-                    
-                
-                if(_velocity.X > 0 && IsTouchingLeft(sprite)||
-                    _velocity.X < 0 && IsTouchingRight(sprite))
-                {
-                     _velocity.X = 0;
-                }
-                if(_velocity.Y > 0 && IsTouchingTop(sprite) ||
-                    _velocity.Y < 0 && IsTouchingBottom(sprite))
-                {
-                    _velocity.Y = 0;
-                }
-                    if(IsTouchingTop(sprite))
+
+                    if(sprite is Block)
                     {
-                        _gravity.Y= 0;
-                        // hasJumped = false;
-                    }
+
                     
-                     
+                         if(_velocity.X > 0 && IsTouchingLeft(sprite)||
+                        _velocity.X < 0 && IsTouchingRight(sprite))
+                        {
+                            _velocity.X = 0;
+                        }
+                       if(_velocity.Y > 0 && IsTouchingTop(sprite) ||
+                        _velocity.Y < 0 && IsTouchingBottom(sprite))
+                        {
+                             _velocity.Y = 0;
+                        }
+
+                    }
+
+                    
 
                     //_velocity.Y = _gravity.Y;
 

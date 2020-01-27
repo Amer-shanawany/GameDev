@@ -9,33 +9,41 @@ namespace GameDev
 {
     public class ArrowKeys : Input
     {
+        public KeyboardState currentKeyboardState;
+        public KeyboardState previousKeyboardState;
         public override void Update()
-        {
-            KeyboardState stateKey = Keyboard.GetState();
-            if(stateKey.IsKeyDown(Keys.Left))
+        {            
+            previousKeyboardState = currentKeyboardState;
+
+            currentKeyboardState = Keyboard.GetState();
+
+            if(currentKeyboardState.IsKeyDown(Keys.Left))
                 Left = true;
-            if(stateKey.IsKeyUp(Keys.Left))
+            if(currentKeyboardState.IsKeyUp(Keys.Left))
                 Left = false;
 
-            if(stateKey.IsKeyDown(Keys.Right))
+            if(currentKeyboardState.IsKeyDown(Keys.Right))
                 Right = true;
-            if(stateKey.IsKeyUp(Keys.Right))
+            if(currentKeyboardState.IsKeyUp(Keys.Right))
                 Right = false;
 
-            if(stateKey.IsKeyDown(Keys.Up))
+            if(currentKeyboardState.IsKeyDown(Keys.Up))
                 Up = true;
-            if(stateKey.IsKeyUp(Keys.Up))
+            if(currentKeyboardState.IsKeyUp(Keys.Up))
                 Up = false;
 
-            if(stateKey.IsKeyDown(Keys.Down))
+            if(currentKeyboardState.IsKeyDown(Keys.Down))
                 Down = true;
-            if(stateKey.IsKeyUp(Keys.Down))
+            if(currentKeyboardState.IsKeyUp(Keys.Down))
                 Down = false;
 
+            if(currentKeyboardState.IsKeyDown(Keys.Space))
+            {
 
-            if(stateKey.IsKeyDown(Keys.Space))
+            }
+            if(currentKeyboardState.IsKeyDown(Keys.Space))
                 Jump = true;
-            if(stateKey.IsKeyUp(Keys.Space))
+            if(currentKeyboardState.IsKeyUp(Keys.Space))
                 Jump = false;
         }
     }
