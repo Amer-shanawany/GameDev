@@ -12,6 +12,8 @@ namespace GameDev
     public class Hero : Animation
 
     {
+        private float _timer;
+        private float jumpingTime = 1.5f;
         bool spacebarDown;
         public int Score = 0;
         bool hasShoot = false;
@@ -57,9 +59,11 @@ namespace GameDev
                 // sound.Play(volume,pitch,pan); // plays jumping sound
                 // _position.Y -= 150f;               // position of jump
                 //_velocity.Y -=  50f;            // velocity of jump 
-                _position.Y -= 35;
+
+                _position.Y -= 55;
                 //_velocity.Y = -50;
                 _velocity.Y = -85;
+                
                 hasJumped = true;
                 spacebarDown = true;
             }
@@ -85,6 +89,7 @@ namespace GameDev
             
             RemoveBullets();
         }
+       
 
         public override void Update(GameTime gameTime,List<Sprite> sprites)
         {

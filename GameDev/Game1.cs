@@ -55,10 +55,10 @@ namespace GameDev
             myHero.Input = new ArrowKeys();
             //Texture2D TempTexture = Content.Load<Texture2D>("walkingRight");
             //sprite1 = new Sprite(TempTexture,new Vector2(200,200));
-            level1 = new Level(Content.Load<Texture2D>("block"), new Dictionary<string,Texture2D> { { "idle",Content.Load<Texture2D>("coin_1") } },16,10);
+            level1 = new Level(Content.Load<Texture2D>("block"), new Dictionary<string,Texture2D> { { "idle",Content.Load<Texture2D>("coin_1") } },16,20);
            // level1 = new Level(Content.Load<Texture2D>("block"),myHeroAnimation,16,10);
 
-            level1.tileArray = new Byte[,] { 
+            level1.tileArray = new Byte[,] {
                 { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1 },
@@ -67,6 +67,16 @@ namespace GameDev
                 { 1,0,0,0,0,0,1,1,1,0,0,2,0,1,1,1 },
                 { 1,0,0,2,1,0,0,0,0,0,1,1,1,0,0,1 },
                 { 1,0,0,1,1,2,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1 },
+                { 1,0,1,1,1,1,2,0,1,1,1,1,1,1,1,1 },
+                { 1,0,0,0,1,0,1,2,2,2,0,0,0,0,0,1 },
+                { 1,0,0,0,1,0,0,1,2,2,2,0,0,0,0,1 },
+                { 1,0,0,0,0,0,1,1,1,1,2,0,0,0,0,1 },
+                { 1,0,0,0,2,2,0,0,0,0,1,2,2,0,0,1 },
+                { 1,0,2,2,0,0,0,0,0,0,0,1,0,0,1,1 },
+                { 1,0,0,0,0,0,1,1,1,0,0,2,0,1,1,1 },
+                { 1,0,0,2,1,0,0,0,0,0,1,1,1,0,0,1 },
+                { 1,2,0,1,1,2,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1 },
                 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 
