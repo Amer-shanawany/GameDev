@@ -16,7 +16,7 @@ namespace GameDev
         {
             _gravity = Vector2.Zero;
             _velocity = Vector2.Zero;
-            Texture2D = TextureList["idle"];
+            _texture = TextureList["idle"];
         }
         public override void Update(GameTime gameTime)
         {

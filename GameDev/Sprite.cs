@@ -10,6 +10,7 @@ namespace GameDev
 {
     public class Sprite
     {
+        public Sprite Parent;
         public Texture2D _texture;
         //protected List<Texture2D> _textureList;
 
@@ -29,7 +30,8 @@ namespace GameDev
             _texture = texture;
             _position = position;
             //_source = new Rectangle(0,0,_texture.Width,_texture.Height);
-            //_destination = new Rectangle(0,0,_texture.Width ,_texture.Height);//TODO : fix this line according to your texture
+            //_destination = new Rectangle(0,0,_texture.Width ,_texture.Height);
+            //TODO : fix this line according to your texture
             _origin = new Vector2(_destination.Width,_destination.Height);
 
         } 
@@ -76,7 +78,52 @@ namespace GameDev
             }
         }
 
+        //Collision Section 
 
+        protected bool IsTouchingLeft(Sprite sprite)
+        {
+
+            return Rectangle.Right + _velocity.X > sprite.Rectangle.Left &&
+                Rectangle.Left < sprite.Rectangle.Left &&
+                Rectangle.Bottom > sprite.Rectangle.Top &&
+                Rectangle.Top < sprite.Rectangle.Bottom;
+        }
+
+        protected bool IsTouchingRight(Sprite sprite)
+        {
+            return Rectangle.Left + _velocity.X < sprite.Rectangle.Right &&
+                Rectangle.Right > sprite.Rectangle.Right &&
+                Rectangle.Bottom > sprite.Rectangle.Top &&
+                Rectangle.Top < sprite.Rectangle.Bottom;
+        }
+
+        protected bool IsTouchingTop(Sprite sprite)
+        {
+            return Rectangle.Bottom + _velocity.Y > sprite.Rectangle.Top &&
+               Rectangle.Top < sprite.Rectangle.Top &&
+               Rectangle.Right > sprite.Rectangle.Left &&
+               Rectangle.Left < sprite.Rectangle.Right;
+        }
+
+        protected bool IsTouchingBottom(Sprite sprite)
+        {
+            return Rectangle.Top + _velocity.Y < sprite.Rectangle.Bottom &&
+               Rectangle.Bottom > sprite.Rectangle.Bottom &&
+               Rectangle.Right > sprite.Rectangle.Left &&
+               Rectangle.Left < sprite.Rectangle.Right;
+        }
+        protected bool IsTouching(Sprite sprite)
+        {
+
+
+            if(IsTouchingBottom(sprite) || IsTouchingLeft(sprite) || IsTouchingRight(sprite) || IsTouchingTop(sprite))
+            {
+                return true;
+
+            }
+
+            return false;
+        }
 
 
 

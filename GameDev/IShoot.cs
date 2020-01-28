@@ -14,9 +14,8 @@ namespace GameDev
         bool HasShoot { get; set; }
 
 
-        void Shoot();
-
-        void RemoveBullets();
-        List<Bullet> ToArrayBullets();
+        void Shoot(List<Sprite> sprites);
+        
+        
     }
 }

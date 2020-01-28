@@ -12,10 +12,7 @@ namespace GameDev
     public  class Animation:Sprite
     {
         Dictionary<string,Texture2D> _textureList;
-       
-        //Texture2D _texture;
-        //Rectangle _rectangle;
-       // Vector2 _position;
+        
         Vector2 _origin;
         protected Vector2 _gravity = new Vector2(0,1.5f);
         protected bool hasJumped = true;
@@ -107,12 +104,7 @@ namespace GameDev
                         }
 
                     }
-
                     
-
-                    //_velocity.Y = _gravity.Y;
-
-
                 }
             }
         }
@@ -163,39 +155,6 @@ namespace GameDev
       
 
     }
-            //Collision Section 
-
-        public bool IsTouchingLeft(Sprite sprite)
-        {
-
-            return Rectangle.Right + _velocity.X > sprite.Rectangle.Left &&
-                Rectangle.Left < sprite.Rectangle.Left &&
-                Rectangle.Bottom > sprite.Rectangle.Top &&
-                Rectangle.Top < sprite.Rectangle.Bottom;
-        }
-
-        protected bool IsTouchingRight(Sprite sprite)
-        {
-            return Rectangle.Left + _velocity.X < sprite.Rectangle.Right &&
-                Rectangle.Right > sprite.Rectangle.Right &&
-                Rectangle.Bottom > sprite.Rectangle.Top &&
-                Rectangle.Top < sprite.Rectangle.Bottom;
-        }
-
-        protected bool IsTouchingTop(Sprite sprite)
-        {
-            return Rectangle.Bottom + _velocity.Y > sprite.Rectangle.Top &&
-               Rectangle.Top < sprite.Rectangle.Top &&
-               Rectangle.Right > sprite.Rectangle.Left &&
-               Rectangle.Left < sprite.Rectangle.Right;
-        }
-
-        protected bool IsTouchingBottom(Sprite sprite)
-        {
-            return Rectangle.Top + _velocity.Y < sprite.Rectangle.Bottom &&
-               Rectangle.Bottom > sprite.Rectangle.Bottom &&
-               Rectangle.Right > sprite.Rectangle.Left &&
-               Rectangle.Left < sprite.Rectangle.Right;
-        }
+           
     }
 }

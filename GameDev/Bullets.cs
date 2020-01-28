@@ -12,39 +12,36 @@ namespace GameDev
     public class Bullet : Sprite,ICloneable
     {
         public Directoin Directoin { set; get; } = Directoin.Right;
-        private float _timer;
-        public float Lifespan = 3f;
-        public Vector2 velocity;
+        protected float _timer;
+        public float Lifespan = 2.5f;
+        public Vector2 Velocity;
         public Bullet(Texture2D texture,Vector2 position)
             : base(texture,position)
         {
-            _velocity = velocity;
+            _velocity = Velocity;
             
-             
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //base.Draw(spriteBatch);
             switch(Directoin)
             {
                 case Directoin.Right:
-                    spriteBatch.Draw(_texture,_position,null,Color.White,0f,_origin,new Vector2(0.2f,0.2f),SpriteEffects.None,1f);
+                    spriteBatch.Draw(_texture,_position,null,Color.White,0f,_origin,Vector2.One,SpriteEffects.None,1f);
 
                     break;
                 case Directoin.Left:
-                    spriteBatch.Draw(_texture,_position,null,Color.White,0f,_origin,new Vector2(0.2f,0.2f),SpriteEffects.FlipHorizontally,1f);
+                    spriteBatch.Draw(_texture,_position,null,Color.White,0f,_origin,Vector2.One,SpriteEffects.FlipHorizontally,1f);
 
                     break;
                 default:
                     break;
             }
-            //spriteBatch.Draw(_texture,_position,_destination,Color.White,0f,_origin,1.0f,SpriteEffects.None,0);
         }
         public override void Update(GameTime gameTime,List<Sprite> sprites)
         {
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if(_timer > Lifespan)
-                IsRemoved = true;
+                 IsRemoved = true;
 
             switch(Directoin)
             {
@@ -58,8 +55,6 @@ namespace GameDev
                     break;
             }
             
-            //_position += (_velocity * 2f); //+ new Vector2(3,0);
-
         }
         public object Clone()
         {

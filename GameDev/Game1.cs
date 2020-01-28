@@ -19,7 +19,7 @@ namespace GameDev
         SpriteFont _font;
 
         Level level1;
-        Sprite sprite1;
+         
         private List<Sprite> _sprites;
             public Game1()
         {
@@ -31,7 +31,7 @@ namespace GameDev
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+             
             ScreenHeight = graphics.PreferredBackBufferHeight;
             ScreenWidth = graphics.PreferredBackBufferWidth;
             base.Initialize();
@@ -43,27 +43,29 @@ namespace GameDev
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera2D();
+            var blockTexture = Content.Load<Texture2D>("block");
             var myHeroAnimation = new Dictionary<string,Texture2D>
             {
                 {"right",Content.Load<Texture2D>("walkingRight") },
                 {"left",Content.Load<Texture2D>("walkingLeft") },
                 {"idle",Content.Load<Texture2D>("walkingDown") }
             };
+            var enemyTexture = Content.Load<Texture2D>("enemy");
+            var enemyBulletTexture = Content.Load<Texture2D>("enemy_bullet");
+            var coinAnimation = new Dictionary<string,Texture2D> { { "idle",Content.Load<Texture2D>("coin_1") } };
             _sprites = new List<Sprite>();
-            myHero = new Hero(myHeroAnimation,new Vector2(250,100),3,50);// {Bullet = new Bullet(Content.Load<Texture2D>("bullet"); };
+            myHero = new Hero(myHeroAnimation,new Vector2(55,800),3,50); 
             myHero.Bullet = new Bullet(Content.Load<Texture2D>("bullet"),myHero._position);
-            myHero.Input = new ArrowKeys();
-            //Texture2D TempTexture = Content.Load<Texture2D>("walkingRight");
-            //sprite1 = new Sprite(TempTexture,new Vector2(200,200));
-            level1 = new Level(Content.Load<Texture2D>("block"), new Dictionary<string,Texture2D> { { "idle",Content.Load<Texture2D>("coin_1") } },16,20);
-           // level1 = new Level(Content.Load<Texture2D>("block"),myHeroAnimation,16,10);
+           
+            myHero.Input = new ArrowKeys(); 
+            level1 = new Level(blockTexture, coinAnimation,enemyTexture,enemyBulletTexture,16,20); 
 
             level1.tileArray = new Byte[,] {
                 { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1 },
                 { 1,0,0,0,0,2,0,0,0,0,1,0,2,0,0,1 },
-                { 1,0,2,0,0,0,0,0,0,0,0,1,0,0,0,1 },
+                { 1,0,2,0,0,0,0,0,0,0,0,1,0,0,31,1 },
                 { 1,0,0,0,0,0,1,1,1,0,0,2,0,1,1,1 },
                 { 1,0,0,2,1,0,0,0,0,0,1,1,1,0,0,1 },
                 { 1,0,0,1,1,2,0,0,0,0,0,0,0,0,0,1 },
@@ -74,16 +76,16 @@ namespace GameDev
                 { 1,0,0,0,0,0,1,1,1,1,2,0,0,0,0,1 },
                 { 1,0,0,0,2,2,0,0,0,0,1,2,2,0,0,1 },
                 { 1,0,2,2,0,0,0,0,0,0,0,1,0,0,1,1 },
-                { 1,0,0,0,0,0,1,1,1,0,0,2,0,1,1,1 },
+                { 1,0,0,0,30,0,1,1,1,0,0,2,0,1,1,1 },
                 { 1,0,0,2,1,0,0,0,0,0,1,1,1,0,0,1 },
                 { 1,2,0,1,1,2,0,0,0,0,0,0,0,0,0,1 },
-                { 1,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1 },
+                { 1,0,30,31,0,0,2,0,0,0,0,0,0,0,31,1},
                 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 
             };
             level1.CreateWorld();
             
-            foreach(var block in level1.ToArray())
+            foreach(var block in level1.ToArrayBlocks())
             {
                 _sprites.Add(block);
             }
@@ -91,6 +93,8 @@ namespace GameDev
             {
                 _sprites.Add(coin);
             }
+            foreach(var enemy in level1.ToArrayEnemies())
+            { _sprites.Add(enemy); }
             
             
 
@@ -126,13 +130,16 @@ namespace GameDev
                 }
                 if(sprite is Coin )
                 {
-                     
                     sprite.Update(gameTime);
                 }
+                if(sprite is Enemy)
+                {
+                    sprite.Update(gameTime,_sprites);
+                }
                if(sprite is Bullet)
-              {
+               {
                   sprite.Update(gameTime,_sprites);
-              }
+               }
             }
             for(int i = 0; i < _sprites.Count; i++)
             {
@@ -161,20 +168,16 @@ namespace GameDev
 
             GraphicsDevice.Clear(Color.TransparentBlack);
 
-            //sprite1.Draw(spriteBatch);
-            //block1.Draw(spriteBatch);
-            //level1.DrawWorld(spriteBatch);
-            //myHero.Draw(spriteBatch);
-          
             foreach(var sprite in _sprites)
             {
-                 
-                 
                     sprite.Draw(spriteBatch);
-                 
-                 
             }
-            spriteBatch.DrawString(_font,string.Format("Score "+ myHero.Score),new Vector2 ( 25 + myHero._position.X - (ScreenWidth/2) ,25 + myHero._position.Y - (ScreenHeight/2)),Color.White);
+            spriteBatch.DrawString(_font,string.Format("Score "+ myHero.Score),
+                new Vector2 ( 25 + myHero._position.X - (ScreenWidth/2) ,
+                25 + myHero._position.Y - (ScreenHeight/2)),Color.White);
+            spriteBatch.DrawString(_font,string.Format("Health " + myHero.Health),
+                new Vector2(25 + myHero._position.X - (ScreenWidth / 2),
+                50 + myHero._position.Y - (ScreenHeight / 2)),Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }

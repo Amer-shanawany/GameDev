@@ -12,23 +12,31 @@ namespace GameDev
     {
         // Sprite blockSprite=new Sprite();
         Texture2D _blockTexture;
-        Texture2D _coinTexture;
+        Texture2D _enemyTexture;
+        Texture2D _enemyBulletTexture;
+        Dictionary<string,Texture2D> _enemyDictionary;
         Dictionary<string,Texture2D> _coinTextureDictionary;
         public byte[,] tileArray { get; set; }
         private Block[,] blocksArray;
         private Coin[,] coinsArray;
+        private Enemy[,] enemiesArray;
         public int LevelHeight { get; set; }
         public int LevelWidth { get; set; }
 
-        public Level(Texture2D blockTexture,Dictionary<string,Texture2D> coinTexture,int LevelWidth,int LevelHeight)
+        public Level(Texture2D blockTexture,Dictionary<string,Texture2D> coinDictionary,
+             Texture2D  enemyTexture,Texture2D enemyBulletTexture,int LevelWidth,int LevelHeight)
         {
             _blockTexture = blockTexture;
-            _coinTextureDictionary = coinTexture;
+            _coinTextureDictionary = coinDictionary;
+            _enemyTexture = enemyTexture;
+            _enemyBulletTexture = enemyBulletTexture;
+            //_enemyDictionary = enemyDictionary;
             // this.blockSprite = sprite;
             this.LevelWidth = LevelHeight;
             this.LevelHeight = LevelWidth;
             blocksArray = new Block[LevelHeight,LevelWidth];
             coinsArray = new Coin[LevelHeight,LevelWidth];
+            enemiesArray = new Enemy[LevelHeight,LevelWidth];
         }
 
 
@@ -48,6 +56,31 @@ namespace GameDev
                         //coinsArray[x,y] = new Coin(_coinTextureDictionary,new Vector2(y* _coinTextureDictionary.ElementAt(0).Value.Bounds.Width,x * _coinTextureDictionary.ElementAt(0).Value.Bounds.Height),3,50);
                         coinsArray[x,y] = new Coin(_coinTextureDictionary,new Vector2((y * _blockTexture.Width)+5,(x * _blockTexture.Height)+9),8,50);
                     }
+                    if(tileArray[x,y] == 30 || tileArray[x,y] ==31 )
+                    {
+                        Directoin direction;
+                        switch(tileArray[x,y])
+                        {
+                            case 30:
+                                direction = Directoin.Right;
+                                break;
+                            default  :
+                                direction = Directoin.Left;
+                                break;
+
+                        }
+                        enemiesArray[x,y] = new Enemy(_enemyTexture,new Vector2(y * _blockTexture.Width,x * _blockTexture.Height))
+                        {  Directoin = direction };
+                        enemiesArray[x,y].Bullet = new Bullet(_enemyBulletTexture,
+                            new Vector2(enemiesArray[x,y]._position.X + _enemyTexture.Width / 2,
+                        enemiesArray[x,y]._position.Y + _enemyTexture.Height / 2))
+                        { Directoin = direction};
+                    }
+                    
+                    
+
+
+
                 }
 
             }
@@ -67,11 +100,13 @@ namespace GameDev
                     {
                         coinsArray[x,y].Draw(spritebatch);
                     }
+                    if(enemiesArray[x,y] != null)
+                        enemiesArray[x,y].Draw(spritebatch);
                 }
             }
 
         }
-        public List<Block> ToArray()
+        public List<Block> ToArrayBlocks()
         {
             List<Block> temp = blocksArray.OfType<Block>().ToList();
             return temp;
@@ -79,6 +114,11 @@ namespace GameDev
         public List<Coin> ToArrayCoins() 
         {
             List<Coin> temp = coinsArray.OfType<Coin>().ToList();
+            return temp;
+        }
+        public List<Enemy> ToArrayEnemies()
+        {
+            List<Enemy> temp = enemiesArray.OfType<Enemy>().ToList();
             return temp;
         }
     }

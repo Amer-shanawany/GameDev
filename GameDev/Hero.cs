@@ -9,18 +9,26 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameDev
 {
-    public class Hero : Animation
-
+    public class Hero : Animation, IShoot
     {
-        private float _timer;
-        private float jumpingTime = 1.5f;
-        bool spacebarDown;
+         
+        //Health
+        public int Health = 5;
+          
+        //Jumping
+         bool spacebarDown;
+
+        //score 
+        //TODO: seprate Score Class ! 
         public int Score = 0;
-        bool hasShoot = false;
+         
         public Input Input { get; set; }
+
+        //IShoot
         public Texture2D BulletTexture { get ; set; }
         public Bullet Bullet;
         public List<Bullet> Bullets { get; set; }
+        public bool HasShoot { get; set; } = false;
 
         public Hero(Dictionary<string,Texture2D> TextureList,Vector2 Position,int FrameCount,float Interval) 
             : base(TextureList,Position,FrameCount,Interval)
@@ -28,6 +36,7 @@ namespace GameDev
             Bullets = new List<Bullet>();
             
         }
+        
         public override void Update(GameTime gameTime)
         {
             
@@ -73,21 +82,14 @@ namespace GameDev
                 //_velocity.Y += 0.6f * i;
             }
 
-          //if(!isJumping)
-          //{
-          //    if(!isPressingJump && Keyboard.GetState().IsKeyDown(Keys.W))
-          //    {
-          //        isJumping = true;
-          //        isPressingJump = true;
-          //    }
-          //}
+       
             if(!Input.Jump)
             {
                 spacebarDown = false;
             }
 
             
-            RemoveBullets();
+            //RemoveBullets();
         }
        
 
@@ -100,39 +102,41 @@ namespace GameDev
                 {
                     if(IsTouchingBottom(sprite) || IsTouchingLeft(sprite) || IsTouchingRight(sprite) || IsTouchingTop(sprite))
                     {
-                        //add score 
-
-                        //remove coin 
-                        //sprites.ToArray();
-                        //int index = sprites.IndexOf(sprite);
-                        //sprites.RemoveAt(index);
-                        /// break;
-                        /// 
-                        sprite.IsRemoved = true;//1 
-
+                        sprite.IsRemoved = true; 
                         Score++;
                     }
                 }
+                if(sprite is Bullet && sprite.Parent != this)
+                {
+                    if(IsTouching(sprite))
+                    {
+                         Health--;
+                         
+                        sprite.IsRemoved = true;
+                    }
+                }
             }
-            if(Input.Shoot&&!hasShoot)
+            if(Input.Shoot&&!HasShoot)
             {
                 Shoot(sprites);
-                hasShoot = true;
+                HasShoot = true;
             }
             if(!Input.Shoot)
             {
-                hasShoot = false;
+                HasShoot = false;
             }
+           
         }
 
+      
         public void Shoot(List<Sprite> sprites)
         {
-           
-            var bullet = Bullet.Clone() as Bullet;
+            
+             var bullet = Bullet.Clone() as Bullet;
+            bullet.Parent = this;
             bullet._position = new Vector2 (_position.X + _rectangle.Width/2,_position.Y + this._rectangle.Height / 2);
-            bullet.velocity.X = _velocity.X;
-            //bullet._position.X += _velocity.X;
-            if(_velocity.X < 0)
+            bullet.Velocity.X = _velocity.X;
+             if(_velocity.X < 0)
             {
                 bullet.Directoin = Directoin.Left;
             }
@@ -141,46 +145,12 @@ namespace GameDev
             {
                 bullet.Directoin = Directoin.Right;
             }
-                bullet.Lifespan = 2f;
-            sprites.Add(bullet);
-          //Bullet bullet = new Bullet(BulletTexture,this._position);
-          //bullet._position = this._position;
-          //bullet._position += _velocity;
-          //bullet.velocity.X  =  this._velocity.X + 5f ;
-          //bullet.IsRemoved = false;
-          //Bullets.Add(bullet);
+                bullet.Lifespan = 1.5f;
+                sprites.Add(bullet);
+        
 
         }
-
-        public void RemoveBullets()
-        {
-            foreach(var bullet in Bullets)
-            {
-                if(Vector2.Distance(bullet._position, this._position)>500)
-
-                {
-                    bullet.IsRemoved = true;
-                }
-            }
-            for(int i = 0; i < Bullets.Count; i++)
-            {
-                if(Bullets[i].IsRemoved)
-                {
-                    Bullets.RemoveAt(i);
-                    i--;
-                }
-            }
-         }
-
-       //public List<Sprite> ToArrayBullets(List<Bullet>)
-       //{
-       //    List<Bullet> temp = Bullets.ToList();
-       //    foreach(var bullet in temp)
-       //    {
-       //
-       //    }
-       //    return temp;
-       //}
+        
     }
     
 }
