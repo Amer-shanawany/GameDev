@@ -19,6 +19,7 @@ namespace GameDev
         SpriteFont _font;
 
         Level level1;
+        Level level2;
          
         private List<Sprite> _sprites;
             public Game1()
@@ -44,6 +45,7 @@ namespace GameDev
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera2D();
             var blockTexture = Content.Load<Texture2D>("block");
+            var endBlockTexture = Content.Load<Texture2D>("endBlock");
             var myHeroAnimation = new Dictionary<string,Texture2D>
             {
                 {"right",Content.Load<Texture2D>("walkingRight") },
@@ -58,10 +60,11 @@ namespace GameDev
             myHero.Bullet = new Bullet(Content.Load<Texture2D>("bullet"),myHero._position);
            
             myHero.Input = new ArrowKeys(); 
-            level1 = new Level(blockTexture, coinAnimation,enemyTexture,enemyBulletTexture,16,20); 
+            level1 = new Level(blockTexture,endBlockTexture, coinAnimation,enemyTexture,enemyBulletTexture,16,20); 
+            level2 = new Level(blockTexture,endBlockTexture,coinAnimation,enemyTexture,enemyBulletTexture,16,20);
 
             level1.tileArray = new Byte[,] {
-                { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,6,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1 },
                 { 1,0,0,0,0,2,0,0,0,0,1,0,2,0,0,1 },
@@ -79,24 +82,80 @@ namespace GameDev
                 { 1,0,0,0,30,0,1,1,1,0,0,2,0,1,1,1 },
                 { 1,0,0,2,1,0,0,0,0,0,1,1,1,0,0,1 },
                 { 1,2,0,1,1,2,0,0,0,0,0,0,0,0,0,1 },
-                { 1,0,30,31,0,0,2,0,0,0,0,0,0,0,31,1},
+                { 1,6,30,31,0,0,2,0,0,0,0,0,0,0,31,1},
                 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 
             };
-            level1.CreateWorld();
-            
-            foreach(var block in level1.ToArrayBlocks())
+            if(myHero.Level ==1)
             {
-                _sprites.Add(block);
+                level1.CreateWorld();
+                foreach(var block in level1.ToArrayBlocks())
+                {
+                    _sprites.Add(block);
+                }
+                foreach(var coin in level1.ToArrayCoins())
+                {
+                    _sprites.Add(coin);
+                }
+                foreach(var enemy in level1.ToArrayEnemies())
+                { _sprites.Add(enemy); }
+                foreach(var endBlock in level1.ToArrayEndBlock())
+                {
+                    _sprites.Add(endBlock);
+                }
+
             }
-            foreach(var coin in level1.ToArrayCoins())
-            {
-                _sprites.Add(coin);
+            else
+            { 
+
+            foreach(var sprite in _sprites)
+                    {
+                        sprite.IsRemoved = true;
+                    }
+                    level2.tileArray = new Byte[,] {
+                { 1,1,0,0,6,0,0,0,0,0,0,0,0,0,0,1 },
+                { 1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1 },
+                { 1,0,0,0,0,2,0,0,0,0,1,0,2,0,0,1 },
+                { 1,0,2,0,0,0,0,0,0,0,0,1,0,0,31,1 },
+                { 1,0,0,0,0,0,1,1,1,0,0,2,0,1,1,1 },
+                { 1,0,0,2,1,0,0,0,0,0,1,1,1,0,0,1 },
+                { 1,0,0,1,1,2,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1 },
+                { 1,0,1,1,1,1,2,0,1,1,1,1,1,1,1,1 },
+                { 1,0,0,0,1,0,1,2,2,2,0,0,0,0,0,1 },
+                { 1,0,0,0,1,0,0,1,2,2,2,0,0,0,0,1 },
+                { 1,0,0,0,0,0,1,1,1,1,2,0,0,0,0,1 },
+                { 1,0,0,0,2,2,0,0,0,0,1,2,2,0,0,1 },
+                { 1,0,2,2,0,0,0,0,0,0,0,1,0,0,1,1 },
+                { 1,0,0,0,30,0,1,1,1,0,0,2,0,1,1,1 },
+                { 1,1,0,2,1,0,0,0,0,0,1,1,1,0,0,1 },
+                { 1,2,0,1,1,2,0,0,0,0,0,0,0,0,0,1 },
+                { 1,6,30,31,0,0,2,0,0,0,0,0,0,0,31,1},
+                { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
+
+            };
+
+                    level2.CreateWorld();
+                    foreach(var block in level2.ToArrayBlocks())
+                    {
+                        _sprites.Add(block);
+                    }
+                    foreach(var coin in level2.ToArrayCoins())
+                    {
+                        _sprites.Add(coin);
+                    }
+                    foreach(var enemy in level2.ToArrayEnemies())
+                    { _sprites.Add(enemy); }
+                    foreach(var endBlock in level2.ToArrayEndBlock())
+                    {
+                        _sprites.Add(endBlock);
+                    }
+                    myHero._position = new Vector2(200,500);
+
             }
-            foreach(var enemy in level1.ToArrayEnemies())
-            { _sprites.Add(enemy); }
-            
-            
+
+
 
 
 

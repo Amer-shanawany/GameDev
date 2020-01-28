@@ -12,6 +12,7 @@ namespace GameDev
     {
         // Sprite blockSprite=new Sprite();
         Texture2D _blockTexture;
+        Texture2D _endBlokTexture;
         Texture2D _enemyTexture;
         Texture2D _enemyBulletTexture;
         Dictionary<string,Texture2D> _enemyDictionary;
@@ -20,12 +21,14 @@ namespace GameDev
         private Block[,] blocksArray;
         private Coin[,] coinsArray;
         private Enemy[,] enemiesArray;
+        private EndBlock[,] EndBlocksArray;
         public int LevelHeight { get; set; }
         public int LevelWidth { get; set; }
 
-        public Level(Texture2D blockTexture,Dictionary<string,Texture2D> coinDictionary,
+        public Level(Texture2D blockTexture,Texture2D endBlockTexture,Dictionary<string,Texture2D> coinDictionary,
              Texture2D  enemyTexture,Texture2D enemyBulletTexture,int LevelWidth,int LevelHeight)
         {
+            _endBlokTexture = endBlockTexture;
             _blockTexture = blockTexture;
             _coinTextureDictionary = coinDictionary;
             _enemyTexture = enemyTexture;
@@ -35,6 +38,7 @@ namespace GameDev
             this.LevelWidth = LevelHeight;
             this.LevelHeight = LevelWidth;
             blocksArray = new Block[LevelHeight,LevelWidth];
+            EndBlocksArray = new EndBlock[LevelHeight,LevelWidth];
             coinsArray = new Coin[LevelHeight,LevelWidth];
             enemiesArray = new Enemy[LevelHeight,LevelWidth];
         }
@@ -76,11 +80,13 @@ namespace GameDev
                         enemiesArray[x,y]._position.Y + _enemyTexture.Height / 2))
                         { Directoin = direction};
                     }
+                    if(tileArray[x,y] == 6)
                     
+                    {
+                        EndBlocksArray[x,y] = new EndBlock(_endBlokTexture,new Vector2(y * _blockTexture.Width,x * _blockTexture.Height));
+
+                    }
                     
-
-
-
                 }
 
             }
@@ -102,10 +108,13 @@ namespace GameDev
                     }
                     if(enemiesArray[x,y] != null)
                         enemiesArray[x,y].Draw(spritebatch);
+                    if(EndBlocksArray[x,y] != null)
+                        enemiesArray[x,y].Draw(spritebatch);
                 }
             }
 
         }
+         
         public List<Block> ToArrayBlocks()
         {
             List<Block> temp = blocksArray.OfType<Block>().ToList();
@@ -120,6 +129,11 @@ namespace GameDev
         {
             List<Enemy> temp = enemiesArray.OfType<Enemy>().ToList();
             return temp;
+        }
+        public List<EndBlock> ToArrayEndBlock()
+        {
+            List<EndBlock> t = EndBlocksArray.OfType<EndBlock>().ToList();
+            return t;
         }
     }
 }

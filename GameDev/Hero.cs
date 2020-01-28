@@ -11,7 +11,9 @@ namespace GameDev
 {
     public class Hero : Animation, IShoot
     {
-         
+
+        //Level 
+        public int Level { get; set; } = 1;
         //Health
         public int Health = 5;
           
@@ -114,6 +116,11 @@ namespace GameDev
                          
                         sprite.IsRemoved = true;
                     }
+                }
+                 
+                if(sprite is EndBlock && IsTouching(sprite))
+                {
+                     Level++;
                 }
             }
             if(Input.Shoot&&!HasShoot)
