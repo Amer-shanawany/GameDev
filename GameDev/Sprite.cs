@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameDev
 {
-    public class Sprite
+    public class Sprite:Component
     {
         public Sprite Parent;
         public Texture2D _texture;
@@ -36,12 +36,12 @@ namespace GameDev
 
         } 
          
-        public virtual void Draw(SpriteBatch spriteBatch) {
+        public override void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Draw(_texture,_position,Color.White);
 
 
         }
-        public virtual void Update(GameTime gameTime) {}
+        public override void Update(GameTime gameTime) {}
 
         //Collision Detection
         public virtual void Update(GameTime gameTime,List<Sprite> sprites) {}
