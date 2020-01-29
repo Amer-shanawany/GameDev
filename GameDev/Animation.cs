@@ -88,7 +88,7 @@ namespace GameDev
                 if(sprite != this)
                 {
 
-                    if(sprite is Block)
+                    if(sprite is Block &&!(sprite is EndBlock))
                     {
                         
                     
