@@ -10,12 +10,11 @@ namespace GameDev
 {
     public class Level
     {
-        // Sprite blockSprite=new Sprite();
         Texture2D _blockTexture;
         Texture2D _endBlokTexture;
         Texture2D _enemyTexture;
         Texture2D _enemyBulletTexture;
-        Dictionary<string,Texture2D> _enemyDictionary;
+       
         Dictionary<string,Texture2D> _coinTextureDictionary;
         public byte[,] tileArray { get; set; }
         private Block[,] blocksArray;
@@ -33,8 +32,7 @@ namespace GameDev
             _coinTextureDictionary = coinDictionary;
             _enemyTexture = enemyTexture;
             _enemyBulletTexture = enemyBulletTexture;
-            //_enemyDictionary = enemyDictionary;
-            // this.blockSprite = sprite;
+           
             this.LevelWidth = LevelHeight;
             this.LevelHeight = LevelWidth;
             blocksArray = new Block[LevelHeight,LevelWidth];
@@ -46,7 +44,7 @@ namespace GameDev
 
         public void CreateWorld()
         {
-            // Coin coin1 = new Coin(_coinTextureDictionary,null,8,50);
+           
             for(int x = 0; x < LevelWidth; x++)
             {
                 for(int y = 0; y < LevelHeight; y++)

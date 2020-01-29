@@ -42,10 +42,6 @@ namespace GameDev
             _position = Position;
             _frameCount = FrameCount;
             _interval = Interval;
-            //_texture = _textureList["idle"];
-          
-
-
         }
         public override void Update(GameTime gameTime)
 

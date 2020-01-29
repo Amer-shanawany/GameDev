@@ -19,7 +19,6 @@ namespace GameDev
             Bullets = new List<Bullet>();
         }
 
-        //public Texture2D Texture2D;
 
         public Directoin Directoin { set; get; }
          

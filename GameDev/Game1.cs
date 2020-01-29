@@ -184,6 +184,15 @@ namespace GameDev
             }
             if(GameState == GameState.LevelTwo)
             {
+                //camera2 = new Camera2D();
+                //camera2.Follow(_sprite2.IndexOf());
+                foreach(var sprite in _sprite2)
+                {
+                    if(sprite is Hero)
+                    {
+                        camera.Follow(myHero);
+                    }
+                }
                 updateSpritesArray(gameTime,_sprite2);
             }
             
@@ -198,6 +207,7 @@ namespace GameDev
                 {
                     sprite.Update(gameTime,sprites);
                     camera.Follow(sprite);
+                    
                 }
                 if(sprite is Coin)
                 {
@@ -233,10 +243,10 @@ namespace GameDev
         protected override void Draw(GameTime gameTime)
         {
             //Debug mode
-            
-           //spriteBatch.Begin(SpriteSortMode.Immediate,BlendState.Opaque);
-           //RasterizerState state = new RasterizerState();
-           //state.FillMode = FillMode.WireFrame;
+
+            //spriteBatch.Begin(SpriteSortMode.Immediate,BlendState.Opaque);
+            //RasterizerState state = new RasterizerState();
+            //state.FillMode = FillMode.WireFrame;
 
             //End Debug section 
             spriteBatch.Begin(transformMatrix: camera.Transform);
@@ -251,12 +261,15 @@ namespace GameDev
             {
                 drawSpritesArrat(spriteBatch,_sprite2);
             }
+
             spriteBatch.DrawString(_font,string.Format("Score "+ myHero.Score),
                 new Vector2 ( 25 + myHero._position.X - (ScreenWidth/2) ,
                 25 + myHero._position.Y - (ScreenHeight/2)),Color.White);
+
             spriteBatch.DrawString(_font,string.Format("Health " + myHero.Health),
                 new Vector2(25 + myHero._position.X - (ScreenWidth / 2),
                 50 + myHero._position.Y - (ScreenHeight / 2)),Color.White);
+
             spriteBatch.End();
             base.Draw(gameTime);
         }

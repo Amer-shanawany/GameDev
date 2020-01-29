@@ -67,31 +67,20 @@ namespace GameDev
             }
             if(Input.Jump && !hasJumped && !spacebarDown)
             {
-                // sound.Play(volume,pitch,pan); // plays jumping sound
-                // _position.Y -= 150f;               // position of jump
-                //_velocity.Y -=  50f;            // velocity of jump 
-
+                
                 _position.Y -= 55;
-                //_velocity.Y = -50;
+              
                 _velocity.Y = -85;
                 
                 hasJumped = true;
                 spacebarDown = true;
             }
-            if(hasJumped)
-            {
-                float i = 3f;
-                //_velocity.Y += 0.6f * i;
-            }
-
-       
+                  
             if(!Input.Jump)
             {
                 spacebarDown = false;
             }
-
             
-            //RemoveBullets();
         }
        
 
