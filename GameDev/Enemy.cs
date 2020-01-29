@@ -15,7 +15,7 @@ namespace GameDev
             : base(texture,position)
         {
             _texture = texture;
-            _position = position;
+            Position = position;
             Bullets = new List<Bullet>();
         }
 
@@ -42,7 +42,7 @@ namespace GameDev
         {
 
             var bullet = Bullet.Clone() as Bullet;
-            bullet._position = new Vector2(_position.X + (this._texture.Width /2) ,_position.Y + (this._texture.Height  /2));
+            bullet.Position = new Vector2(Position.X + (this._texture.Width /2) ,Position.Y + (this._texture.Height  /2));
             bullet.Velocity.X = 1f;
             bullet.Parent = this;
             bullet.Directoin = Directoin;

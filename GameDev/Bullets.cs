@@ -26,11 +26,11 @@ namespace GameDev
             switch(Directoin)
             {
                 case Directoin.Right:
-                    spriteBatch.Draw(_texture,_position,null,Color.White,0f,_origin,Vector2.One,SpriteEffects.None,1f);
+                    spriteBatch.Draw(_texture,Position,null,Color.White,0f,_origin,Vector2.One,SpriteEffects.None,1f);
 
                     break;
                 case Directoin.Left:
-                    spriteBatch.Draw(_texture,_position,null,Color.White,0f,_origin,Vector2.One,SpriteEffects.FlipHorizontally,1f);
+                    spriteBatch.Draw(_texture,Position,null,Color.White,0f,_origin,Vector2.One,SpriteEffects.FlipHorizontally,1f);
 
                     break;
                 default:
@@ -46,10 +46,10 @@ namespace GameDev
             switch(Directoin)
             {
                 case Directoin.Right:
-                    _position.X += _velocity.X + 3f;
+                    Position.X += _velocity.X + 3f;
                     break;
                 case Directoin.Left:
-                    _position.X += _velocity.X - 3f;
+                    Position.X += _velocity.X - 3f;
                     break;
                 default:
                     break;

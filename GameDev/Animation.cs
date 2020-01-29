@@ -30,7 +30,7 @@ namespace GameDev
             get
             {
                 return  new Rectangle( 
-                    (int)_position.X,(int)_position.Y,_frameWidth,_frameHeight-1);
+                    (int)Position.X,(int)Position.Y,_frameWidth,_frameHeight-1);
                 ;
             }
         }
@@ -39,7 +39,7 @@ namespace GameDev
              :base(TextureList["idle"],Position)
         {
             _textureList = TextureList;
-            _position = Position;
+            base.Position = Position;
             _frameCount = FrameCount;
             _interval = Interval;
         }
@@ -56,7 +56,7 @@ namespace GameDev
             _rectangle = new Rectangle(_currentFrame * _frameWidth,0,_frameWidth,_frameHeight);
             _origin = Vector2.Zero;// new Vector2(_rectangle.Width/2 ,_rectangle.Height /2);
             
-            _position += _velocity  ;
+            Position += _velocity  ;
             
             SetAnimation();
             
@@ -112,7 +112,7 @@ namespace GameDev
             {
                 _texture = _textureList["idle"];
             }
-            spriteBatch.Draw(_texture,_position,_rectangle,Color.White,0f,_origin,1.0f,SpriteEffects.None,0f);
+            spriteBatch.Draw(_texture,Position,_rectangle,Color.White,0f,_origin,1.0f,SpriteEffects.None,0f);
          }
         public void Animate(GameTime gameTime)
         {

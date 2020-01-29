@@ -74,8 +74,8 @@ namespace GameDev
                         enemiesArray[x,y] = new Enemy(_enemyTexture,new Vector2(y * _blockTexture.Width,x * _blockTexture.Height))
                         {  Directoin = direction };
                         enemiesArray[x,y].Bullet = new Bullet(_enemyBulletTexture,
-                            new Vector2(enemiesArray[x,y]._position.X + _enemyTexture.Width / 2,
-                        enemiesArray[x,y]._position.Y + _enemyTexture.Height / 2))
+                            new Vector2(enemiesArray[x,y].Position.X + _enemyTexture.Width / 2,
+                        enemiesArray[x,y].Position.Y + _enemyTexture.Height / 2))
                         { Directoin = direction};
                     }
                     if(tileArray[x,y] == 6)

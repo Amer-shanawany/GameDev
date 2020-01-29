@@ -15,7 +15,7 @@ namespace GameDev
         private Rectangle _destination;
         private Rectangle _source;
 
-        public Vector2 _position;
+        public Vector2 Position;
         
         protected Vector2 _origin;
         protected Vector2 _velocity;
@@ -25,13 +25,13 @@ namespace GameDev
 
         public Sprite(Texture2D texture,Vector2  position) {
             _texture = texture;
-            _position = position;
+            Position = position;
             _origin = new Vector2(_destination.Width,_destination.Height);
 
         } 
          
         public virtual void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(_texture,_position,Color.White);
+            spriteBatch.Draw(_texture,Position,Color.White);
 
 
         }
@@ -45,7 +45,7 @@ namespace GameDev
             {
                 if(_texture != null)
                 {
-                 return new Rectangle((int)_position.X,(int)_position.Y, _texture.Width, _texture.Height);
+                 return new Rectangle((int)Position.X,(int)Position.Y, _texture.Width, _texture.Height);
 
                 }
                 

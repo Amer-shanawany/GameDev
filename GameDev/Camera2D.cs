@@ -20,8 +20,8 @@ namespace GameDev
                 0);
 
             var position = Matrix.CreateTranslation(
-                -spriteTarget._position.X - (spriteTarget.Rectangle.Width / 2),
-                -spriteTarget._position.Y - (spriteTarget.Rectangle.Height / 2),
+                -spriteTarget.Position.X - (spriteTarget.Rectangle.Width / 2),
+                -spriteTarget.Position.Y - (spriteTarget.Rectangle.Height / 2),
                 0);
 
             Transform = position * offset;

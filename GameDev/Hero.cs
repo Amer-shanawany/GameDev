@@ -68,7 +68,7 @@ namespace GameDev
             if(Input.Jump && !hasJumped && !spacebarDown)
             {
                 
-                _position.Y -= 55;
+                Position.Y -= 55;
               
                 _velocity.Y = -85;
                 
@@ -139,7 +139,7 @@ namespace GameDev
             
              var bullet = Bullet.Clone() as Bullet;
             bullet.Parent = this;
-            bullet._position = new Vector2 (_position.X + _rectangle.Width/2,_position.Y + this._rectangle.Height / 2);
+            bullet.Position = new Vector2 (Position.X + _rectangle.Width/2,Position.Y + this._rectangle.Height / 2);
             bullet.Velocity.X = _velocity.X;
              if(_velocity.X < 0)
             {
