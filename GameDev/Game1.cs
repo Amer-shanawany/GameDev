@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -14,14 +15,18 @@ namespace GameDev
         SpriteBatch spriteBatch;
         public static int ScreenHeight;
         public static int ScreenWidth;
+        public static GameState GameState = GameState.LevelOne;
+
         Camera2D camera;
+        Camera2D camera2;
         Hero myHero;
         SpriteFont _font;
-
+          
         Level level1;
         Level level2;
          
         private List<Sprite> _sprites;
+        private List<Sprite> _sprite2;
             public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -44,6 +49,8 @@ namespace GameDev
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera2D();
+            camera2 = new Camera2D();
+            _font = Content.Load<SpriteFont>("Font");
             var blockTexture = Content.Load<Texture2D>("block");
             var endBlockTexture = Content.Load<Texture2D>("endBlock");
             var myHeroAnimation = new Dictionary<string,Texture2D>
@@ -56,7 +63,8 @@ namespace GameDev
             var enemyBulletTexture = Content.Load<Texture2D>("enemy_bullet");
             var coinAnimation = new Dictionary<string,Texture2D> { { "idle",Content.Load<Texture2D>("coin_1") } };
             _sprites = new List<Sprite>();
-            myHero = new Hero(myHeroAnimation,new Vector2(55,800),3,50); 
+            _sprite2 = new List<Sprite>();
+            myHero = new Hero(myHeroAnimation,new Vector2(55,800),3,50);
             myHero.Bullet = new Bullet(Content.Load<Texture2D>("bullet"),myHero._position);
            
             myHero.Input = new ArrowKeys(); 
@@ -86,8 +94,7 @@ namespace GameDev
                 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 
             };
-            if(myHero.Level ==1)
-            {
+            
                 level1.CreateWorld();
                 foreach(var block in level1.ToArrayBlocks())
                 {
@@ -103,16 +110,8 @@ namespace GameDev
                 {
                     _sprites.Add(endBlock);
                 }
-
-            }
-            else if(myHero.Level ==2)
-            { 
-
-            foreach(var sprite in _sprites)
-                { 
-                    sprite.IsRemoved = true;
-                }
-            level2.tileArray = new Byte[,] {
+                 
+                    level2.tileArray = new Byte[,] {
                 { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1 },
@@ -139,32 +138,33 @@ namespace GameDev
                     level2.CreateWorld();
                     foreach(var block in level2.ToArrayBlocks())
                     {
-                        _sprites.Add(block);
+                        _sprite2.Add(block);
                     }
                     foreach(var coin in level2.ToArrayCoins())
                     {
-                        _sprites.Add(coin);
+                        _sprite2.Add(coin);
                     }
                     foreach(var enemy in level2.ToArrayEnemies())
-                    { _sprites.Add(enemy); }
+                    { _sprite2.Add(enemy); }
                     foreach(var endBlock in level2.ToArrayEndBlock())
                     {
-                        _sprites.Add(endBlock);
+                        _sprite2.Add(endBlock);
                     }
-                    _sprites.Add(myHero);
-                    myHero._position = new Vector2(200,500);
+           
 
+            if(GameState == GameState.LevelOne)
+            {
+                
+                _sprites.Add(myHero);
             }
-
-
-
-
-
-            _font = Content.Load<SpriteFont>("Font");
-            _sprites.Add(myHero);
+            else if(GameState == GameState.LevelTwo)
+            {
+                myHero._position = new Vector2(200,500);
+                _sprite2.Add(myHero);
+            }
+            
             
         }
-
 
         protected override void UnloadContent()
         {
@@ -172,47 +172,64 @@ namespace GameDev
 
         }
 
-       
-
         protected override void Update(GameTime gameTime)
         {
             if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-             
             myHero.Update(gameTime);
-            foreach(var sprite in _sprites.ToArray())
+            if(GameState == GameState.LevelOne)
+            {
+                updateSpritesArray(gameTime,_sprites);
+            }
+            if(GameState == GameState.LevelTwo)
+            {
+                updateSpritesArray(gameTime,_sprite2);
+            }
+            
+            base.Update(gameTime);
+        }
+
+        private void updateSpritesArray(GameTime gameTime,List<Sprite> sprites)
+        {
+            foreach(var sprite in sprites.ToArray())
             {
                 if(sprite is Hero)
                 {
-                    sprite.Update(gameTime,_sprites);
+                    sprite.Update(gameTime,sprites);
                     camera.Follow(sprite);
                 }
-                if(sprite is Coin )
+                if(sprite is Coin)
                 {
                     sprite.Update(gameTime);
                 }
                 if(sprite is Enemy)
                 {
-                    sprite.Update(gameTime,_sprites);
+                    sprite.Update(gameTime,sprites);
                 }
-               if(sprite is Bullet)
-               {
-                  sprite.Update(gameTime,_sprites);
-               }
-            }
-            for(int i = 0; i < _sprites.Count; i++)
-            {
-                if(_sprites[i].IsRemoved)
+                if(sprite is Bullet)
                 {
-                    _sprites.RemoveAt(i);
+                    sprite.Update(gameTime,sprites);
+                }
+            }
+            for(int i = 0; i < sprites.Count; i++)
+            {
+                if(sprites[i].IsRemoved)
+                {
+                    sprites.RemoveAt(i);
                     i--;
                 }
             }
-            base.Update(gameTime);
         }
-
-
+        private void drawSpritesArrat(SpriteBatch spriteBatch,List<Sprite> sprites)
+        {
+             
+                foreach(var sprite in sprites)
+                {
+                    sprite.Draw(spriteBatch);
+                }
+            
+        }
         protected override void Draw(GameTime gameTime)
         {
             //Debug mode
@@ -222,15 +239,17 @@ namespace GameDev
            //state.FillMode = FillMode.WireFrame;
 
             //End Debug section 
-
-
             spriteBatch.Begin(transformMatrix: camera.Transform);
-
             GraphicsDevice.Clear(Color.TransparentBlack);
 
-            foreach(var sprite in _sprites)
+            if(GameState == GameState.LevelOne)
             {
-                    sprite.Draw(spriteBatch);
+
+                drawSpritesArrat(spriteBatch,_sprites);
+            }
+            if(GameState == GameState.LevelTwo)
+            {
+                drawSpritesArrat(spriteBatch,_sprite2);
             }
             spriteBatch.DrawString(_font,string.Format("Score "+ myHero.Score),
                 new Vector2 ( 25 + myHero._position.X - (ScreenWidth/2) ,

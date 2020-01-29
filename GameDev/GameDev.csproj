@@ -50,6 +50,7 @@
     <Compile Include="EndBlock.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="IShoot.cs" />

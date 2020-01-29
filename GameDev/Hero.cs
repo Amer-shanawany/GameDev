@@ -120,11 +120,14 @@ namespace GameDev
                  
                 if(sprite is EndBlock && IsTouching(sprite))
                 {
-                    if(Level == 1)
+                    if(Game1.GameState == GameState.LevelOne)
                     {
                         //TODO implement Level 2 
-                        Level = 2;
-                        
+                        Game1.GameState = GameState.LevelTwo;
+
+                    } else if(Game1.GameState == GameState.LevelTwo)
+                    {
+                        Game1.GameState = GameState.GameOver;
                     }
                     
                 }
