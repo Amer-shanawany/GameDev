@@ -64,7 +64,7 @@ namespace GameDev
             level2 = new Level(blockTexture,endBlockTexture,coinAnimation,enemyTexture,enemyBulletTexture,16,20);
 
             level1.tileArray = new Byte[,] {
-                { 1,0,0,0,6,0,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1 },
                 { 1,0,0,0,0,2,0,0,0,0,1,0,2,0,0,1 },
@@ -82,7 +82,7 @@ namespace GameDev
                 { 1,0,0,0,30,0,1,1,1,0,0,2,0,1,1,1 },
                 { 1,0,0,2,1,0,0,0,0,0,1,1,1,0,0,1 },
                 { 1,2,0,1,1,2,0,0,0,0,0,0,0,0,0,1 },
-                { 1,6,30,31,0,0,2,0,0,0,0,0,0,0,31,1},
+                { 1,0,30,31,6,0,2,0,0,0,0,0,0,0,31,1},
                 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 
             };
@@ -105,15 +105,15 @@ namespace GameDev
                 }
 
             }
-            else
+            else if(myHero.Level ==2)
             { 
 
             foreach(var sprite in _sprites)
-                    {
-                        sprite.IsRemoved = true;
-                    }
-                    level2.tileArray = new Byte[,] {
-                { 1,1,0,0,6,0,0,0,0,0,0,0,0,0,0,1 },
+                { 
+                    sprite.IsRemoved = true;
+                }
+            level2.tileArray = new Byte[,] {
+                { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1 },
                 { 1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1 },
                 { 1,0,0,0,0,2,0,0,0,0,1,0,2,0,0,1 },
@@ -151,6 +151,7 @@ namespace GameDev
                     {
                         _sprites.Add(endBlock);
                     }
+                    _sprites.Add(myHero);
                     myHero._position = new Vector2(200,500);
 
             }

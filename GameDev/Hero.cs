@@ -120,7 +120,13 @@ namespace GameDev
                  
                 if(sprite is EndBlock && IsTouching(sprite))
                 {
-                     Level++;
+                    if(Level == 1)
+                    {
+                        //TODO implement Level 2 
+                        Level = 2;
+                        
+                    }
+                    
                 }
             }
             if(Input.Shoot&&!HasShoot)
