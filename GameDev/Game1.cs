@@ -152,16 +152,14 @@ namespace GameDev
                     }
            
 
-            if(GameState == GameState.LevelOne)
-            {
+             
                 
                 _sprites.Add(myHero);
-            }
-            else if(GameState == GameState.LevelTwo)
-            {
+             
+            
                 myHero._position = new Vector2(200,500);
                 _sprite2.Add(myHero);
-            }
+            
             
             
         }
